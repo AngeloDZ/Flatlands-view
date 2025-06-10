@@ -72,4 +72,52 @@ def Flatlands_View(n):
 
 #30/05/2025 18:02 Added to github
 
+def Generate_Polygon_2(n):
+    """
+    Generates and plots points of a n-sided polygon.
+    n should be a positive integer.
+    """
+    #Create an array for the x and y coordinates of each point
+    points = np.zeros((n+1,2))
     
+    #Create the points for the polygon and add them to the array
+    for i in range(n+1):
+        points[i] = [np.cos(i*2*np.pi/n),np.sin(i*2*np.pi/n)]
+    
+    #Plot out the polygon
+    polygon = plt.Polygon(points, closed=True, edgecolor='black', facecolor='lightblue')
+    plt.gca().add_patch(polygon)
+    
+    #Set limits of the graph
+    plt.xlim(-1.5,1.5)
+    plt.ylim(-1.5,1.5)
+    
+    #Make the graph not looked squished - even out graph axis
+    plt.gca().set_aspect('equal')
+    
+    return points
+
+def Flatlands_View_2(n):
+        
+    #Call the polygon vertices
+    polygon_points = Generate_Polygon_2(n)
+    
+    x = []
+    y = []
+    
+    for i in range(len(polygon_points)-1):
+        x_values = np.linspace(polygon_points[i][0], polygon_points[i+1][0], 10)
+        y_values = np.linspace(polygon_points[i][1], polygon_points[i+1][1], 10)
+            
+        #Make sure there are no duplicates
+        if i == 0:
+            x.extend(x_values)
+            y.extend(y_values)
+            
+        else:
+            x.extend(x_values[1:])
+            y.extend(y_values[1:])
+    
+    return x,y
+            
+        
