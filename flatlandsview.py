@@ -102,6 +102,7 @@ def Flatlands_View_2(n):
     #Call the polygon vertices
     polygon_points = Generate_Polygon_2(n)
     
+    #Create a list of all the visible values
     x = []
     y = []
     
@@ -117,7 +118,36 @@ def Flatlands_View_2(n):
         else:
             x.extend(x_values[1:])
             y.extend(y_values[1:])
+            
+    #Find points beyond x=0
+    x_pos = []
+    y_pos = []
+        
+    for i in range(len(x)):
+        if x[i] > -1e-10:
+            x_pos.append(x[i])
+            y_pos.append(y[i])
+            
+    #Find all visible points from reference x=1
+    x_visible = []
+    y_visible = []
+    max_y_index = np.argmax(y_pos)
     
-    return x,y
+    for i in range(len(x_pos)):
+        if x_pos[i] >= x_pos[max_y_index] - 1e-10:
+            x_visible.append(x_pos[i])
+            y_visible.append(y_pos[i])
+    
+    #Sort points in order of y value
+    x_visible_sorted = []
+    y_visible_sorted = []
+    
+    for i in range(len(x_visible)):
+        x_visible_sorted.append(x_visible[np.argsort(y_visible)[i]])
+        y_visible_sorted.append(y_visible[np.argsort(y_visible)[i]])
+    return x_visible, y_visible, x_visible_sorted, y_visible_sorted
+
+
+
             
         
