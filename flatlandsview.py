@@ -84,16 +84,16 @@ def Generate_Polygon_2(n):
     for i in range(n+1):
         points[i] = [np.cos(i*2*np.pi/n),np.sin(i*2*np.pi/n)]
     
-    #Plot out the polygon
-    polygon = plt.Polygon(points, closed=True, edgecolor='black', facecolor='lightblue')
-    plt.gca().add_patch(polygon)
+    # #Plot out the polygon
+    # polygon = plt.Polygon(points, closed=True, edgecolor='black', facecolor='lightblue')
+    # plt.gca().add_patch(polygon)
     
-    #Set limits of the graph
-    plt.xlim(-1.5,1.5)
-    plt.ylim(-1.5,1.5)
+    # #Set limits of the graph
+    # plt.xlim(-1.5,1.5)
+    # plt.ylim(-1.5,1.5)
     
-    #Make the graph not looked squished - even out graph axis
-    plt.gca().set_aspect('equal')
+    # #Make the graph not looked squished - even out graph axis
+    # plt.gca().set_aspect('equal')
     
     return points
 
@@ -114,6 +114,10 @@ def Flatlands_View_2(n):
         if i == 0:
             x.extend(x_values)
             y.extend(y_values)
+            
+        elif i == len(polygon_points) - 2:
+            x.extend(x_values[1:9])
+            y.extend(y_values[1:9])
             
         else:
             x.extend(x_values[1:])
@@ -145,9 +149,30 @@ def Flatlands_View_2(n):
     for i in range(len(x_visible)):
         x_visible_sorted.append(x_visible[np.argsort(y_visible)[i]])
         y_visible_sorted.append(y_visible[np.argsort(y_visible)[i]])
-    return x_visible, y_visible, x_visible_sorted, y_visible_sorted
+    
+     # for i in range(len(x_visible)):
+         
+     #     index = np.argsort(y_visible)[i]
+     #     x_val = x_visible[index]
+     #     y_val = y_visible[index]
+         
+     #     if i == 0:
+     #         x_visible_sorted.append(x_val)
+     #         y_visible_sorted.append(y_val)
+         
+     #     else:
+     #         if abs(x_visible_sorted[i-1] -  x_visible[np.argsort(y_visible)[i]]) > 1e-10:
+     #             x_visible_sorted.append(x_visible[np.argsort(y_visible)[i]])
+     #             y_visible_sorted.append(y_visible[np.argsort(y_visible)[i]])
+    
+    x_distance = np.array(x_visible_sorted).reshape(1,len(x_visible_sorted))
+    plt.imshow(x_distance)
+    plt.colorbar()  
+    plt.show()
+                
+    return x_visible_sorted, y_visible_sorted
 
-
-
+#Could change 1e-10 to a smaller number if dealing with a polygon of great order.
+#Could change 10 into variable
             
         
